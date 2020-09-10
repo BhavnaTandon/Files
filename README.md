@@ -1,15 +1,24 @@
-# Open the file mbox-short.txt and read it line by line. When you find a line that starts with 'From ' like the following line: From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008. You will parse the From line using split() and print out the second word in the line (i.e. the entire address of the person who sent the message). Then print out a count at the end. Hint: make sure not to include the lines that start with 'From:'. You can download the sample data at http://www.py4e.com/code3/mbox-short.txt
-fname = input("Enter file name: ")
-fh = open(fname)
-count = 0
-new = list()
-for line in fh:
-    l1 = line.rstrip()
-    new = l1.split()
-    if len(new) < 3:
-      continue
-    if new[0] != 'From':
-      continue
-    print(new[1])
-    count = count + 1
-print("There were", count, "lines in the file with From as the first word")
+# Write a program to read through the mbox-short.txt and figure out who has sent the greatest number of mail messages. The program looks for 'From ' lines and takes the second word of those lines as the person who sent the mail. The program creates a Python dictionary that maps the sender's mail address to a count of the number of times they appear in the file. After the dictionary is produced, the program reads through the dictionary using a maximum loop to find the most prolific committer.
+name = input("Enter file:")
+if len(name) < 1 : name = "mbox-short.txt"
+handle = open(name)
+emails = list()
+counts = dict()
+for line in handle:
+    words = line.split()
+    if len(words) < 1:
+        continue
+    if words[0] != 'From':
+        continue
+    emails.append(words[1])
+#print(emails)
+for email in emails:
+    counts[email] = counts.get(email,0) + 1
+#print(counts)
+Largestemail = None
+Largestcount = None
+for email,count in counts.items():
+    if Largestcount is None or count > Largestcount:
+        Largestemail = email
+        Largestcount = count
+print(Largestemail,Largestcount)
