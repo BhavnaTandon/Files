@@ -1,8 +1,10 @@
-# Write a program to read through the mbox-short.txt and figure out who has sent the greatest number of mail messages. The program looks for 'From ' lines and takes the second word of those lines as the person who sent the mail. The program creates a Python dictionary that maps the sender's mail address to a count of the number of times they appear in the file. After the dictionary is produced, the program reads through the dictionary using a maximum loop to find the most prolific committer.
+#  Write a program to read through the mbox-short.txt and figure out the distribution by hour of the day for each of the messages. You can pull the hour out from the 'From ' line by finding the time and then splitting the string a second time using a colon. From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008. Once you have accumulated the counts for each hour, print out the counts, sorted by hour as shown below
 name = input("Enter file:")
 if len(name) < 1 : name = "mbox-short.txt"
 handle = open(name)
-emails = list()
+time = list()
+hours = list()
+final = list()
 counts = dict()
 for line in handle:
     words = line.split()
@@ -10,15 +12,15 @@ for line in handle:
         continue
     if words[0] != 'From':
         continue
-    emails.append(words[1])
-#print(emails)
-for email in emails:
-    counts[email] = counts.get(email,0) + 1
+    time.append(words[5])
+#print(time)
+for t in time:
+    h = t.split(':')
+    hours.append(h[0])
+#print(hours)
+for hour in hours:
+    counts[hour] = counts.get(hour,0) + 1
 #print(counts)
-Largestemail = None
-Largestcount = None
-for email,count in counts.items():
-    if Largestcount is None or count > Largestcount:
-        Largestemail = email
-        Largestcount = count
-print(Largestemail,Largestcount)
+final = sorted([k,v] for k,v in counts.items())
+for k,v in final:
+    print(k,v)
